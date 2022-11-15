@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas 스터디 노트</title>
+    <style>
+		html,body{width:100%;height:100%;margin:0;padding:0;font-size:100%}
+		body{font-family:Inter,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;font-weight:400;font-size:1em;line-height:1.25}
+		div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td,figure{margin:0;padding:0}
+		header,footer,section,article,aside,nav,hgroup,details,menu,figure,figcaption{display:block}
+		button,input[type=submit],input[type=reset],input[type=button]{overflow:visible;cursor:pointer}
+		input[type=text],input[type=email],input[type=password],input[type=submit],textarea{-webkit-appearance:none}
+		input,select,textarea,button{font-family:'Noto Sans KR',sans-serif;font-size:100%;border-radius:0}button{overflow:visible;margin:0;padding:0;border:0;background:transparent}
+		ul li{list-style:none}img,fieldset{border:0;vertical-align:top}
+		hr{display:none}
+		.main-cont{max-width: 860px;margin:0 auto;padding-bottom: 40px;}
+		.note-title{padding: 20px;font-size: 2em;}
+		.note-section{margin-top:20px;padding: 0 20px;}
+		.note-section-title{font-size: 1.5em;}
+		.note-section .note-desc{margin-top: 10px;font-size:0.9em;}
+		.note-section pre{display: block;overflow-x:auto;margin-top: 15px;padding:20px;color:#444;background-color: #f0f0f0;word-break: break-all;white-space: pre-line;word-wrap: break-word;}
+	</style>
+</head>
+<body>
+    <main class="main-wrap">
+        <article class="main-cont">
+            <h1 class="note-title">Canvas 스터디 노트</h1>
+            <section class="note-section">
+                <h2 class="note-section-title">Canvas API</h2>
+                <p class="note-desc">Canvas API는 Javascript로 그래픽을 그릴 수 있게 해주는 API, WebGL API로 2D 그래픽이나 3D 그래픽을 그릴 수 있음</p>
+            </section>
+            <section class="note-section">
+                <h2 class="note-section-title">function</h2>
+                <p class="note-desc">fill() : 색 채워넣기</p>
+                <p class="note-desc">stroke(): 선으로 표시</p>
+                <p class="note-desc">beginPath() : 새 경로를 시작</p>
+                <p class="note-desc">moveTo(x,y) : 좌표이동</p>
+                <p class="note-desc">lineTo(x,y) : 라인 그리기</p>
+                <p class="note-desc">fillRect(x, y, w, h) : moveTo() + lineTo() shortcut function</p>
+                <p class="note-desc">arc(x, y, radius, startAngle, endAngle) : 원 그리기</p>
+            </section>
+            <section class="note-section">
+                <h2 class="note-section-title">선그리기</h2>
+                <pre>
+                    const canvas = document.querySelector("canvas");
+const ctx = canvas.getContext("2d"); // context = brush
+
+// 그림판 사이즈 지정
+canvas.width = 800;
+canvas.height = 800;
+
+// 선 두께 설정
+ctx.lineWidth = 2;
+
+// 컬러 배열
+const colors = [
+    "#cd84f1",
+    "#ffcccc",
+    "#ff4d4d",
+    "#ffaf40",
+    "#fffa65",
+    "#32ff7e",
+    "#e67e22",
+    "#7efff5",
+    "#18dcff"
+]
+
+// 마우스 움직일 때 마다 선그리기
+function onMouseMove(event) {
+    ctx.beginPath();
+    ctx.moveTo(0, 0); //시작점
+    const color = colors[Math.floor(Math.random() * colors.length)]; // 컬러 랜덤하게 불러오기
+    ctx.strokeStyle = color;
+    ctx.lineTo(event.offsetX, event.offsetY);
+    ctx.stroke();
+}
+
+canvas.addEventListener("mousemove", onMouseMove);
+                </pre>
+            </section>
+        </article>
+    </main>
+</body>
+</html>
