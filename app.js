@@ -1,65 +1,79 @@
+const modeBtn = document.getElementById("mode-btn");
+const colorOptions = Array.from(
+    document.getElementsByClassName("color-option")
+);
+const color = document.getElementById("color");
+const linewidth = document.getElementById("line-width");
 const canvas = document.querySelector("canvas");
-const ctx = canvas.getContext("2d"); // context = brush
+const ctx = canvas.getContext("2d"); // context = brush 역할
 
 canvas.width = 800;
 canvas.height = 800;
-/*
-ctx.moveTo(50, 50);
-ctx.lineTo(150, 50);
-ctx.lineTo(150, 150);
-ctx.lineTo(50, 150);
-ctx.lineTo(50, 50);
-ctx.fill();
-*/
+ctx.lineWidth = linewidth.value;
 
-/*
-ctx.fillRect(400, 500, 50, 180);
-ctx.fillRect(600, 500, 50, 180);
-ctx.lineWidth = 2;
-ctx.fillRect(500, 580, 50, 100);
-ctx.fillRect(400, 500, 200, 20);
-ctx.fillRect(400, 680, 250, 10);
-ctx.moveTo(400, 500);
-ctx.lineTo(525, 350);
-ctx.lineTo(650, 500);
-ctx.fill();
+let isPainting = false;
+let isFilling = false;
 
-ctx.beginPath();
-ctx.fillRect(215, 200, 15, 100);
-ctx.fillRect(350, 200, 15, 100);
-ctx.fillRect(260, 200, 60, 200);
-
-ctx.arc(290, 140, 50, 0, 2 * Math.PI);
-ctx.fill();
-
-ctx.beginPath();
-ctx.fillStyle = "#fff";
-ctx.arc(270, 130, 8, Math.PI, 2 * Math.PI);
-ctx.arc(310, 130, 8, Math.PI, 2 * Math.PI);
-ctx.fill();
-*/
-
-ctx.lineWidth = 2;
-
-const colors = [
-    "#cd84f1",
-    "#ffcccc",
-    "#ff4d4d",
-    "#ffaf40",
-    "#fffa65",
-    "#32ff7e",
-    "#e67e22",
-    "#7efff5",
-    "#18dcff"
-]
-
-function onMouseMove(event) {
-    ctx.beginPath();
-    ctx.moveTo(0, 0);
-    const color = colors[Math.floor(Math.random() * colors.length)];
-    ctx.strokeStyle = color;
-    ctx.lineTo(event.offsetX, event.offsetY);
-    ctx.stroke();
+function onMove(event) {
+    if(isPainting) {
+        ctx.lineTo(event.offsetX, event.offsetY);
+        ctx.stroke();
+        return;
+    } // isPainting = ture 일 경우 그리기
+    ctx.moveTo(event.offsetX, event.offsetY); // isPainting 아닐 경우 브러쉬만 움직이기
 }
 
-canvas.addEventListener("mousemove", onMouseMove);
+function startPainting() {
+    isPainting = true;
+}
+
+function cancelPainting() {
+    isPainting = false;
+    ctx.beginPath();  // 새로운 path로 시작하게 하기
+}
+
+function onLineWidthChange(event) {
+    ctx.lineWidth = event.target.value;
+}
+
+function onColorChange(event) {
+    ctx.strokeStyle = event.target.value;
+    ctx.fillStyle = event.target.value;
+}
+
+function onColorClick(event) {
+    const colorValue = event.target.dataset.color;
+    ctx.strokeStyle = colorValue;
+    ctx.fillStyle = colorValue;
+    color.value = colorValue;
+}
+
+function onModeClick() {
+    if(isFilling) {
+        isFilling = false
+        modeBtn.innerText = "Fill Mode"
+    } else {
+        isFilling = true
+        modeBtn.innerText = "Draw Mode"
+    }
+}
+
+function onCanvasClick() {
+    if(isFilling) {
+        ctx.fillRect(0, 0, 800, 800);
+    }
+}
+
+canvas.addEventListener("mousemove", onMove);
+canvas.addEventListener("mousedown", startPainting);
+canvas.addEventListener("mouseup", cancelPainting);
+canvas.addEventListener("mouseleave", cancelPainting);
+canvas.addEventListener("click", onCanvasClick);
+
+linewidth.addEventListener("change", onLineWidthChange);
+
+color.addEventListener("change", onColorChange);
+colorOptions.forEach((color) => color.addEventListener("click",
+onColorClick));
+
+modeBtn.addEventListener("click", onModeClick);
