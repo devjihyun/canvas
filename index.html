@@ -8,14 +8,7 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <p>1. Fill > 컬러 선택 > 캔버스 클릭</p>
-    <p>2. Draw > 컬러 선택 > 캔버스에 마우스로 그리기</p>
-    <p>3. Erase : 지우기</p>
-    <p>4. Reset : 초기화</p>
-
     <div class="main">
-        <canvas></canvas>
-        <input id="line-width" type="range" min="1" max="10" value="5" step="0.1">
         <div class="color-option-wrap">
             <input id="color" type="color">
             <div class="color-option" style="background-color:#1abc9c" data-color="#1abc9c"></div>
@@ -27,13 +20,22 @@
             <div class="color-option" style="background-color:#e74c3c" data-color="#e74c3c"></div>
             <div class="color-option" style="background-color:#95a5a6" data-color="#95a5a6"></div>
             <div class="color-option" style="background-color:#d35400" data-color="#d35400"></div>
-            <div class="color-option" style="background-color:#bdc3c7" data-color="#bdc3c7"></div>
             <div class="color-option" style="background-color:#2ecc71" data-color="#2ecc71"></div>
             <div class="color-option" style="background-color:#e67e22" data-color="#e67e22"></div>
         </div>
-        <button id="mode-btn">Fill</button>
-        <button id="reset-btn">Reset</button>
-        <button id="eraser-btn">Erase</button>
+        <canvas></canvas>
+        <div class="btns-wrap">
+            <label for="line-width" class="line-width-inp-lbl">Brush Width</label>
+            <input id="line-width" class="line-width-inp" type="range" min="1" max="10" value="5" step="0.1">
+            <button id="mode-btn">🪣 Fill</button>
+            <button id="reset-btn">🗒 Reset</button>
+            <button id="eraser-btn">⌦ Erase</button>
+            <label for="file" class="file-lbl">➕ Add Image</label>
+            <input type="file" accept="image/*" id="file" class="file-inp" />
+            <input type="text" placeholder="Add text" id="text" class="text-inp"/>
+            <p class="text-inp-desc">* 텍스트 입력 후 캔버스에 더블 클릭하세요.</p>
+            <button id="save">⬇️ Save image</button>
+        </div>
     </div>
     <script src="app.js"></script>
 </body>

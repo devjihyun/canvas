@@ -208,9 +208,66 @@ modeBtn.addEventListener("click", onModeClick);
                     eraserBtn.addEventListener("click", onEraserClick);                    
                 </pre>
             </section>
+
+            <section class="note-section">
+                <h2 class="note-section-title">이미지 추가하기</h2>
+                <pre>
+                    const fileInput = document.getElementById("file");
+
+                    function onFileChange(event) {
+                        const file = event.target.files[0];
+                        const  url = URL.createObjectURL(file);
+                        const image = new Image();
+                        image.src = url;
+                        image.onload = function() {
+                            ctx.drawImage(image, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+                            fileInput.value = null;
+                        };
+                    }
+                   
+                    fileInput.addEventListener("change", onFileChange);
+                </pre>
+            </section>
+
+            <section class="note-section">
+                <h2 class="note-section-title">텍스트 추가하기</h2>
+                <pre>
+                    const textInput = document.getElementById("text");
+
+                    function onDoubleClick(event) {
+                        const text = textInput.value;
+                        if(text !== "") {
+                            ctx.save(); // 현재 상태 저장
+                            const text = textInput.value;
+                            ctx.lineWidth = 1;
+                            ctx.font = "48px serif";
+                            ctx.fillText(text, event.offsetX, event.offsetY);
+                            // ctx.strokeText(text, event.offsetX, event.offsetY);
+                            ctx.restore(); // 저장해뒀던 버전으로 되돌리기
+                        }
+                    }
+                   
+                    canvas.addEventListener("dblclick", onDoubleClick);
+                </pre>
+            </section>
+
+            <section class="note-section">
+                <h2 class="note-section-title">이미지 저장하기</h2>
+                <pre>
+                    const saveBtn = document.getElementById("save");
+
+                    function onSaveClick() {
+                        const url = canvas.toDataURL();
+                        const a = document.createElement("a");
+                        a.href = url;
+                        a.download = "myDrawing.png";
+                        a.click();
+                    }
+                   
+                    saveBtn.addEventListener("click", onSaveClick);
+                </pre>
+            </section>
         </article>
     </main>
-
-
 </body>
 </html>
